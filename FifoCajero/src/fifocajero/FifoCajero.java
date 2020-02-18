@@ -16,8 +16,9 @@ public class FifoCajero {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        
+
         new JFCajero().setVisible(true);
     }
+
     
 }

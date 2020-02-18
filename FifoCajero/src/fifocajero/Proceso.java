@@ -7,13 +7,15 @@ package fifocajero;
 
 /**
  *
- * @author Jose Daniel
+ * @author Jose Daniel 
  */
 public class Proceso {
     private int nfacturas;
+    private String nombre;
     
-    public Proceso(int n){
-        this.setNfacturas(nfacturas);        
+    public Proceso(int n, String nombre){
+        this.nombre = nombre;
+        this.nfacturas = n;       
     }
 
     public int getNfacturas() {
@@ -22,10 +24,14 @@ public class Proceso {
 
     public void setNfacturas(int nfacturas) {
         this.nfacturas = nfacturas;
+    }                
+
+    public String getNombre() {
+        return nombre;
     }
-    
-    
-    
-    
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }        
     
 }

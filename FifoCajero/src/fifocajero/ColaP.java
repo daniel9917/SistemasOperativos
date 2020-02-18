@@ -23,6 +23,7 @@ public class ColaP {
     public void push(Proceso P){
         this.Procesos.add(P);
         JOptionPane.showMessageDialog(null, "Proceso añadido correctamente.");
+        System.out.flush();
         System.out.println("Procesos actuales: "+this.Procesos.size());
     }
     

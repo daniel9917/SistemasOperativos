@@ -5,6 +5,13 @@
  */
 package fifocajero;
 
+import java.awt.Color;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -17,21 +24,26 @@ public class JFCajero extends javax.swing.JFrame {
      * Creates new form JFCajero
      */
     
-    private Cajero C;
-    private ColaP CP;
+    public Cajero C;
+    public ColaP CP;
     private Proceso P;
     int n;
-    DefaultTableModel modelo;
-    DefaultTableModel modelo2;
+    public DefaultTableModel modelo;
+    public DefaultTableModel modelo2;
+
     
     
     public JFCajero() {
-        initComponents();
-        CP = new ColaP();
-        C = new Cajero();
+
+        initComponents();        
+        this.setTitle("Cajero");        
+        CP = new ColaP();        
         n = 0;
         modelo = (DefaultTableModel) this.JTProcesos.getModel();
         modelo2 = (DefaultTableModel) this.JTCajero.getModel();
+        C = new Cajero();
+        
+        
     }
 
     /**
@@ -75,8 +87,9 @@ public class JFCajero extends javax.swing.JFrame {
         JCBnumero.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         JCBnumero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
 
-        jPanel1.setBackground(new java.awt.Color(0, 100, 153));
+        jPanel1.setBackground(new java.awt.Color(0, 0, 153));
 
+        JLTitulo.setBackground(new java.awt.Color(255, 255, 255));
         JLTitulo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         JLTitulo.setForeground(new java.awt.Color(255, 255, 255));
         JLTitulo.setText("Bienvenido al cajero.");
@@ -98,7 +111,7 @@ public class JFCajero extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel2.setBackground(new java.awt.Color(0, 0, 153));
 
         JTCajero.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         JTCajero.setModel(new javax.swing.table.DefaultTableModel(
@@ -136,7 +149,7 @@ public class JFCajero extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
                     .addContainerGap()))
         );
 
@@ -175,17 +188,19 @@ public class JFCajero extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(JBAnadirP)
                             .addComponent(JCBnumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(JBIniciar))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -196,8 +211,8 @@ public class JFCajero extends javax.swing.JFrame {
         // TODO add your handling code here: 
         int facturas = Integer.parseInt(this.JCBnumero.getSelectedItem().toString());
         n = n+1;
-        this.P = new Proceso(facturas);
-        CP.push(P);
+        this.P = new Proceso(facturas, "Proceso "+n);
+        CP.push(P);                
         //Creación de la tabla
         
         modelo.addRow(new String []{"Proceso "+n,""+facturas});                                                
@@ -207,9 +222,25 @@ public class JFCajero extends javax.swing.JFrame {
     private void JBIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBIniciarActionPerformed
         // TODO add your handling code here:        
         this.JBAnadirP.setEnabled(false);
+        try {
+            this.C.vaciarCola(CP,this);
+            JOptionPane.showMessageDialog(null, "Clientes atendidos.");
+            this.modelo2.removeRow(0);
+            this.JTProcesos.setBackground(Color.green);
+        } catch (InterruptedException ex) {
+            System.err.println("Error :" +ex.getMessage());
+        }
         
         
     }//GEN-LAST:event_JBIniciarActionPerformed
+
+    public JTable getJTCajero() {
+        return JTCajero;
+    }
+
+    public void setJTCajero(JTable JTCajero) {
+        this.JTCajero = JTCajero;
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
